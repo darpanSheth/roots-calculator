@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Darpan">
+    <title>Quadratic Equation Roots</title>
+    <style>
+        p, label, input, output{
+            font-size: 1.5rem;
+        }
+        input:invalid:focus{
+            border: solid red 5px;
+        }
+        form > input{
+            margin-right: 15px;
+        }
+    </style>
+    <script>
+        function calculateRoots(form){
+            var numberA, numberB, numberC;
+            var boxA, boxB, boxC;
+            var solutionMessage
+            var firstRoot, secondRoot, onlyRoot;
+
+            boxA = form.elements["valueA"];
+            boxB = form.elements["valueB"];
+            boxC = form.elements["valueC"];
+            solutionMessage = form.elements["finalMessage"]
+            
+            if(!form.checkValidity()){
+                solutionMessage.value = "";
+                if((!boxA.checkValidity() || boxA.value == 0) && !boxB.checkValidity() && !boxC.checkValidity()){
+                    document.getElementById("valueA").style.border = "solid red 5px";
+                    document.getElementById("valueB").style.border = "solid red 5px";
+                    document.getElementById("valueC").style.border = "solid red 5px";
+
+                    alert("Invalid entry for a. Must be a non-zero integer between -99 and +99. \n" +
+                          "Invalid entry for b. Must be an integer between -99 and +99. \n" +
+                          "Invalid entry for b. Must be an integer between -99 and +99.")
+                          
+                }
+                else if((!boxA.checkValidity() || boxA.value == 0) && !boxB.checkValidity()){
+                    document.getElementById("valueA").style.border = "solid red 5px";
+                    document.getElementById("valueB").style.border = "solid red 5px";
+
+                    alert("Invalid entry for a. Must be a non-zero integer between -99 and +99. \n" +
+                          "Invalid entry for b. Must be an integer between -99 and +99.")
+                }
+                else if(!boxB.checkValidity() && !boxC.checkValidity()){
+                    document.getElementById("valueB").style.border = "solid red 5px";
+                    document.getElementById("valueC").style.border = "solid red 5px";
+
+                    alert("Invalid entry for b. Must be an integer between -99 and +99. \n" +
+                          "Invalid entry for c. Must be an integer between -99 and +99.")
+                }
+                else if((!boxA.checkValidity() || boxA.value == 0) && !boxC.checkValidity()){
+                    document.getElementById("valueA").style.border = "solid red 5px";
+                    document.getElementById("valueC").style.border = "solid red 5px";
+
+                    alert("Invalid entry for a. Must be a non-zero integer between -99 and +99. \n" +
+                          "Invalid entry for c. Must be an integer between -99 and +99.")
+                }
+                else if(!boxA.checkValidity()){
+                    document.getElementById("valueA").style.border = "solid red 5px";
+
+                    alert("Invalid entry for a. Must be a non-zero integer between -99 and +99.")
+                }    
+                else if(!boxB.checkValidity()){
+                    document.getElementById("valueB").style.border = "solid red 5px";
+
+                    alert("Invalid entry for b. Must be an integer between -99 and +99.")
+                }
+                else if(!boxC.checkValidity()){
+                    document.getElementById("valueC").style.border = "solid red 5px";
+                    
+                    alert("Invalid entry for c. Must be an integer between -99 and +99.")
+                }
+            }
+            else{
+                document.getElementById("valueA").style.border = "solid black 1px";
+                document.getElementById("valueB").style.border = "solid black 1px";
+                document.getElementById("valueC").style.border = "solid black 1px";
+
+                numberA = boxA.valueAsNumber;
+                numberB = boxB.valueAsNumber;
+                numberC = boxC.valueAsNumber;
+
+                firstRoot = (-numberB + Math.sqrt(numberB * numberB - (4 * numberA * numberC))) / (2 * numberA);
+                secondRoot = (-numberB - Math.sqrt(numberB * numberB - (4 * numberA * numberC))) / (2 * numberA);
+                onlyRoot = -numberB / (2 * numberA);
+                if(boxA.value == 0){
+                    document.getElementById("valueA").style.border = "solid red 5px";
+
+                    alert("Invalid entry for a. Must be a non-zero integer between -99 and +99.")
+                }
+                else if(numberB * numberB < (4 * numberA * numberC)){
+                    solutionMessage.value = "Solution: x's roots are imaginary";
+                }
+                else if(numberB * numberB == (4 * numberA * numberC)){
+                    solutionMessage.value = "Solution: x = " + onlyRoot.toFixed(3);
+                }
+                else if(numberB * numberB > (4 * numberA * numberC)){
+                    solutionMessage.value = "Solution: x = " + firstRoot.toFixed(3) + ", x = " + secondRoot.toFixed(3);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Quadratic Equation Roots Calculator</h1>
+    <div>
+        <p>
+            This web page finds the roots of a polynomial equation of the following form:<br>
+            <i>ax<sup>2</sup> + bx + c</i> = 0
+        </p>
+        <p><i>a, b</i> and <i>c</i> must be integers between -99 and +99, and a must be non-zero.</p>
+        <form id="myForm">
+            <label for="valueA">a:</label>
+            <input type="number" id="valueA" min="-99" max="99" step="1" required> 
+            <label for="valueB">b:</label>
+            <input type="number" id="valueB" min="-99" max="99" step="1" required>
+            <label for="valueC">c:</label>
+            <input type="number" id="valueC" min="-99" max="99" step="1" required>
+        </form>
+    </div>
+    <br>
+    <input type="button" value="Calculate roots" form="myForm" onclick="calculateRoots(this.form);">
+    <br><br>
+    <output id="finalMessage" form="myForm"></output>
+</body>
+</html>
